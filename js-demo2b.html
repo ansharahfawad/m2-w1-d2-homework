@@ -1,82 +1,135 @@
 <!DOCTYPE html>
-<html>
-<head>  
-<title>My Second Web Page</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="demo.css">
+    <title>Calories Comparison of Popular Burgers</title>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="./demo.css">
 
-<script>
-    $(document).ready(function() {
-       $("#btn").click(function(event){
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-       });
-    });
- </script>
-</head> 	
+    <script>
+        $(document).ready(function () {
+
+            $("#btn").click(function () {
+
+                // Load data from the JSON file
+                $.getJSON("./data.json", function (data) {
+
+                    // Set the table caption
+                    $("table").empty();
+                    $("table").append(
+                        $("<caption></caption>").text(data.title)
+                    );
+
+                    // Create the table heading
+                    const headingRow = $("<tr></tr>");
+
+                    headingRow.append(
+                        $("<th></th>").text(data.heading)
+                    );
+
+                    for (let i = 1; i <= 4; i++) {
+                        headingRow.append(
+                            $("<th></th>").text(data["head" + i])
+                        );
+                    }
+
+                    $("table").append(
+                        $("<thead></thead>").append(headingRow)
+                    );
+
+                    // Create the calories row
+                    const caloriesRow = $("<tr></tr>")
+                        .append($("<td></td>").text(data.subheadcal));
+
+                    for (let i = 1; i <= 4; i++) {
+                        caloriesRow.append(
+                            $("<td></td>").text(data["cal" + i])
+                        );
+                    }
+
+                    // Create the fat row
+                    const fatRow = $("<tr></tr>")
+                        .append($("<td></td>").text(data.subheadfat));
+
+                    for (let i = 1; i <= 4; i++) {
+                        fatRow.append(
+                            $("<td></td>").text(data["fat" + i])
+                        );
+                    }
+
+                    $("table").append(
+                        $("<tbody></tbody>").append(caloriesRow, fatRow)
+                    );
+
+                    // Create the vendor row
+                    const vendorRow = $("<tr></tr>")
+                        .append($("<td></td>").text(data.subheadven));
+
+                    for (let i = 1; i <= 4; i++) {
+                        vendorRow.append(
+                            $("<td></td>").text(data["ven" + i])
+                        );
+                    }
+
+                    $("table").append(
+                        $("<tfoot></tfoot>").append(vendorRow)
+                    );
+
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    console.error("Error loading data.json:", errorThrown);
+
+                    alert(
+                        "Unable to load data.json. " +
+                        "Check the file location and run the page using Live Server."
+                    );
+                });
+
+            });
+
+        });
+    </script>
+</head>
+
 <body>
 
-<div id="container">
+    <div id="container">
 
-<header>My Web Site Brand</header>
-<nav>
-	<ul>
-    <li><a href="js-demo2.html">Home</a></li>
-    <li><a href="js-demo2b.html">About</a></li>
-    <li><a href="js-demo2d.html">Gallery</a></li>
-    <li><a href="js-demo2c.html">Contact</a></li>
-	</ul>
-</nav>
+        <header>My Web Site Brand</header>
 
-<main>
-  <h1>My Second Heading</h1>
-  <p>My Second paragraph.</p>
+        <nav>
+            <ul>
+                <li><a href="js-demo2.html">Home</a></li>
+                <li><a href="js-demo2b.html">About</a></li>
+                <li><a href="js-demo2d.html">Gallery</a></li>
+                <li><a href="js-demo2c.html">Contact</a></li>
+            </ul>
+        </nav>
 
-  <table>
-    <!--<caption></caption>
-    <thead>
-        <tr id="showheading">
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr id="showcalories">
-            <td></td>
-            <td></td> 
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr id="showfat">
-            <td></td>
-            <td></td> 
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-    </tbody>
-    <tfoot>
-        <tr id="showven">
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-    </tfoot>-->
-    </table>
+        <main>
+            <h1>Calories Comparison of Popular Burgers</h1>
 
-    <input type = "button" id = "btn" value = "Load Data" style="margin-top:20px;" />
-</main>
+            <p>
+                Click the button below to load the burger comparison data.
+            </p>
 
-<footer>&copy; Copyright 2020</footer>
+            <table></table>
 
-</div>
+            <input
+                type="button"
+                id="btn"
+                value="Load Data"
+                style="margin-top: 20px;"
+            >
+        </main>
+
+        <footer>&copy; Copyright 2020</footer>
+
+    </div>
 
 </body>
 </html>
